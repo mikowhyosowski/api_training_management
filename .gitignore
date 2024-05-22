@@ -1,0 +1,16 @@
+# Symfony 7
+/.env.local
+/vendor/
+/var/
+/public/bundles/
+/public/build/
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/config/secrets/test/test.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
