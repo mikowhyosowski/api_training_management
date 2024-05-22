@@ -34,7 +34,7 @@ final class Version20240522115223 extends AbstractMigration
             name VARCHAR(512) NOT NULL,
             instructor_id INT NOT NULL,
             training_datetime DATETIME NOT NULL,
-            price DECIMAL NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY(id),
