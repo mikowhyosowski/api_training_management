@@ -2,30 +2,47 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\InstructorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
 #[ORM\Table(name: "instructors")]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'instructor:item']),
+        new GetCollection(normalizationContext: ['groups' => 'instructor:list'])
+    ],
+    order: ['id' => 'DESC'],
+    paginationEnabled: false,
+)]
 class Instructor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['instructor:list', 'instructor:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 256)]
+    #[Groups(['instructor:list', 'instructor:item'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 256)]
+    #[Groups(['instructor:list', 'instructor:item'])]
     private ?string $lastName = null;
 
     #[ORM\Column]
+    #[Groups(['instructor:list', 'instructor:item'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Groups(['instructor:list', 'instructor:item'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
