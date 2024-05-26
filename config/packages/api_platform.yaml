@@ -1,5 +1,5 @@
 api_platform:
-    title: Hello API Platform
+    title: API Training Management
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
@@ -7,6 +7,15 @@ api_platform:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
         html: ['text/html']
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Training/Models/Entity'
+            - '%kernel.project_dir%/src/Training/Models/Dto'
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
     defaults:
         stateless: true
         cache_headers:

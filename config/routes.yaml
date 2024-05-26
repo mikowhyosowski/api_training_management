@@ -1,3 +1,11 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+training_offers_by_date:
+    path: /api/training_offers/{year}/{month}/{day}
+    controller: App\Controller\TrainingOfferController::getCountByDate
+    requirements:
+        year: '\d+'
+        month: '\d{1,2}'
+        day: '\d{1,2}'

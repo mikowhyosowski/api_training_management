@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Instructor;
-use App\Entity\TrainingOffer;
+use App\Training\Models\Entity\Instructor;
+use App\Training\Models\Entity\TrainingOffer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;

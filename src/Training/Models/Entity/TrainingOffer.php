@@ -1,77 +1,61 @@
 <?php
 
-namespace App\Entity;
+namespace App\Training\Models\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use App\Repository\TrainingOfferRepository;
-use App\State\TrainingOfferProvider;
+use App\Training\Repository\TrainingOfferRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
 
+/**
+ * This class represents a Training Offer entity in the application.
+ * It holds data related to a training session, including:
+ *  - ID (auto-generated)
+ *  - Name (unique)
+ *  - Instructor (Many-to-One relationship with Instructor entity)
+ *  - Training Date and Time (DateTime)
+ *  - Price (decimal with precision and scale)
+ *  - Created At (automatically set on entity creation)
+ *  - Updated At (automatically updated on entity update)
+ *
+ * The class also includes methods for getting and setting these properties.
+ */
 #[ORM\Entity(repositoryClass: TrainingOfferRepository::class)]
 #[ORM\Table(name: "training_offers")]
-#[ApiResource(
-    operations: [
-        new Get(
-            normalizationContext: ['groups' => 'training_offer:item'],
-            provider: TrainingOfferProvider::class,
-        ),
-        new GetCollection(
-            normalizationContext: ['groups' => 'training_offer:list'],
-            provider: TrainingOfferProvider::class,
-        )
-    ],
-    order: ['id' => 'DESC'],
-    paginationEnabled: false,
-)]
 class TrainingOffer
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 512)]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
+    #[ORM\Column(length: 512, unique: true)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'trainingOffers')]
+    #[ORM\ManyToOne(
+        inversedBy: 'trainingOffers',
+        cascade: ['persist']
+    )]
     #[ORM\JoinColumn(nullable: false)]
     private ?Instructor $instructor = null;
     
-    #[ORM\Column]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTime $trainingDatetime = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
     private ?float $price = null;
 
-    #[ORM\Column]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    #[Groups(['training_offer:list', 'training_offer:item'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    public function __construct(
-        $id
-    ) {
-        $this->setId($id);
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): static
+    public function setId(?int $id): static
     {
         $this->id = $id;
 

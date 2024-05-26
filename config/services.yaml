@@ -20,5 +20,14 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    security.user_voter:
+        class: App\Training\Voter\TrainingOfferVoter
+        public: false
+        arguments: [ ]
+        tags:
+            - { name: security.voter }
+    App\Training\State\TrainingOfferProvider:
+        $container: '@api_platform.filter_locator'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Training\Interfaces;
 
-interface RebateServiceInterface
+interface RebateInterface
 {
     /**
      * Get the rebate percentage for a given termin ID.

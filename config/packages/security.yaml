@@ -4,14 +4,19 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        training_user_provider:
+            id: App\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: training_user_provider
+            access_token:
+                token_handler: App\Security\TokenHandler
+                token_extractors: header
+            stateless: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

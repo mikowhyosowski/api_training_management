@@ -1,48 +1,36 @@
 <?php
 
-namespace App\Entity;
+namespace App\Training\Models\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use App\Repository\InstructorRepository;
+use App\Training\Repository\InstructorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
 
+/**
+ * This class represents an Instructor entity in the training application.
+ * It maps to the "instructors" table in the database.
+ */
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
 #[ORM\Table(name: "instructors")]
-#[ApiResource(
-    operations: [
-        new Get(normalizationContext: ['groups' => 'instructor:item']),
-        new GetCollection(normalizationContext: ['groups' => 'instructor:list'])
-    ],
-    order: ['id' => 'DESC'],
-    paginationEnabled: false,
-)]
 class Instructor
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    #[Groups(['instructor:list', 'instructor:item'])]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 256)]
-    #[Groups(['instructor:list', 'instructor:item'])]
+    #[ORM\Column(type: "string", length: 256)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 256)]
-    #[Groups(['instructor:list', 'instructor:item'])]
+    #[ORM\Column(type: "string", length: 256)]
     private ?string $lastName = null;
 
-    #[ORM\Column]
-    #[Groups(['instructor:list', 'instructor:item'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    #[Groups(['instructor:list', 'instructor:item'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
